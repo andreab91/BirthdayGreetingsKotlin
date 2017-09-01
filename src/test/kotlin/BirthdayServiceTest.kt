@@ -13,6 +13,15 @@ class BirthdayServiceTest {
 
         assertEquals(false, birthdayService.called)
     }
+
+    @Test
+    fun sends_message_when_there_is_a_birthday() {
+        val birthdayService = TestableBirthdayService()
+
+        birthdayService.sendGreetings("aFileName", XDate("1999/09/01"), "localhost", 1234)
+
+        assertEquals(true, birthdayService.called)
+    }
 }
 
 class TestableBirthdayService : BirthdayService() {
