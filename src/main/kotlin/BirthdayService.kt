@@ -9,16 +9,10 @@ import javax.mail.Transport
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
-class BirthdayService {
+open class BirthdayService {
 
     fun sendGreetings(fileName: String, xDate: XDate, smtpHost: String, smtpPort: Int) {
-        val input = BufferedReader(FileReader(fileName))
-        // skip the first line (header)
-        input.readLine()
-
-        input.readLines().forEach {
-            val employeeData = it.split(", ")
-            val employee = Employee(employeeData[1], employeeData[0], employeeData[2], employeeData[3])
+        employees(fileName).forEach { employee ->
             if(employee.isBirthday(xDate)) {
                 val recipient = employee.email
                 val body = "Happy Birthday, dear ${employee.firstName}!"
@@ -28,7 +22,22 @@ class BirthdayService {
         }
     }
 
-    private fun sendMessage(smtpHost: String, smtpPort: Int, sender: String, subject: String, body: String, recipient: String) {
+    protected open fun employees(fileName: String) : List<Employee> {
+        val input = BufferedReader(FileReader(fileName))
+        // skip the first line (header)
+        input.readLine()
+
+        val employeeList = mutableListOf<Employee>()
+
+        input.readLines().forEach {
+            val employeeData = it.split(", ")
+            employeeList.add(Employee(employeeData[1], employeeData[0], employeeData[2], employeeData[3]))
+        }
+
+        return employeeList
+    }
+
+    protected open fun sendMessage(smtpHost: String, smtpPort: Int, sender: String, subject: String, body: String, recipient: String) {
         val props = Properties()
         props.put("mail.smtp.host", smtpHost)
         props.put("mail.smtp.port", smtpPort.toString())
