@@ -1,10 +1,11 @@
 import java.io.BufferedReader
 import java.io.FileReader
 
-class EmployeeRepository(fileName: String) {
-    private val fileBuffer: BufferedReader = BufferedReader(FileReader(fileName))
+open class EmployeeRepository(private val fileName: String) {
 
-    fun employees(): List<Employee> {
+    open fun employees(): List<Employee> {
+        val fileBuffer = BufferedReader(FileReader(fileName))
+
         // skip the first line (header)
         fileBuffer.readLine()
 

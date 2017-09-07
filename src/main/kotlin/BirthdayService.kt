@@ -5,7 +5,7 @@ import javax.mail.Transport
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
-open class BirthdayService {
+open class BirthdayService(private val employeeRepository: EmployeeRepository) {
 
     fun sendGreetings(fileName: String, xDate: XDate, smtpHost: String, smtpPort: Int) {
         employees(fileName).forEach { employee ->
@@ -19,7 +19,7 @@ open class BirthdayService {
     }
 
     protected open fun employees(fileName: String) : List<Employee> {
-        return EmployeeRepository(fileName).employees()
+        return employeeRepository.employees()
     }
 
     protected open fun sendMessage(smtpHost: String, smtpPort: Int, sender: String, subject: String, body: String, recipient: String) {
