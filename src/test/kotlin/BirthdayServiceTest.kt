@@ -1,6 +1,3 @@
-import main.BirthdayService
-import main.Employee
-import main.XDate
 import org.junit.Assert.*
 import org.junit.Test
 

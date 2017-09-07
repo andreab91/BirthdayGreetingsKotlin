@@ -1,7 +1,3 @@
-package test
-
-import main.XDate
-import main.BirthdayService
 import org.junit.Test
 import org.junit.After
 import org.junit.Before

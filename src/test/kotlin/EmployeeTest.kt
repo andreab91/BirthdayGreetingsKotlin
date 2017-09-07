@@ -1,7 +1,3 @@
-package test
-
-import main.Employee
-import main.XDate
 import org.junit.Test
 import org.junit.Assert.*
 
