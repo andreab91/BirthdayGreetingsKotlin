@@ -1,4 +1,4 @@
-open class BirthdayService(private val employeeRepository: EmployeeRepository) {
+open class BirthdayService(private val employeeRepository: EmployeeRepository, val mailer: Mailer) {
 
     fun sendGreetings(xDate: XDate, smtpHost: String, smtpPort: Int) {
         employeeRepository.employees().forEach { employee ->
@@ -12,6 +12,6 @@ open class BirthdayService(private val employeeRepository: EmployeeRepository) {
     }
 
     protected open fun sendMessage(smtpHost: String, smtpPort: Int, sender: String, subject: String, body: String, recipient: String) {
-        Mailer(smtpHost, smtpPort).sendMessage(sender, subject, body, recipient)
+        mailer.sendMessage(sender, subject, body, recipient)
     }
 }

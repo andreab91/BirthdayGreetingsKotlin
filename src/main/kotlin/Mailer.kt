@@ -5,7 +5,7 @@ import javax.mail.Transport
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
-class Mailer(val smtpHost: String, val smtpPort: Int) {
+open class Mailer(val smtpHost: String, val smtpPort: Int) {
     open fun sendMessage(sender: String, subject: String, body: String, recipient: String) {
         val props = Properties()
         props.put("mail.smtp.host", smtpHost)

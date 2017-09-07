@@ -4,33 +4,38 @@ import org.junit.Test
 class BirthdayServiceTest {
     @Test
     fun does_not_send_messages_if_there_are_no_birthdays() {
-        val birthdayService = TestableBirthdayService(FakeEmployeeRepository())
+        val spyMailer = SpyMailer()
+        val birthdayService = BirthdayService(FakeEmployeeRepository(), spyMailer)
 
         birthdayService.sendGreetings(XDate("1789/02/25"), "localhost", 1234)
 
-        assertEquals(false, birthdayService.called)
+        assertEquals(false, spyMailer.isCalled())
     }
 
     @Test
     fun sends_message_when_there_is_a_birthday() {
-        val birthdayService = TestableBirthdayService(FakeEmployeeRepository())
+        val spyMailer = SpyMailer()
+        val birthdayService = BirthdayService(FakeEmployeeRepository(), spyMailer)
 
         birthdayService.sendGreetings(XDate("1999/09/01"), "localhost", 1234)
 
-        assertEquals(true, birthdayService.called)
-    }
-}
-
-class TestableBirthdayService(employeeRepository: EmployeeRepository) : BirthdayService(employeeRepository) {
-    var called = false
-
-    override fun sendMessage(smtpHost: String, smtpPort: Int, sender: String, subject: String, body: String, recipient: String) {
-        called = true
+        assertEquals(true, spyMailer.isCalled())
     }
 }
 
 class FakeEmployeeRepository : EmployeeRepository("aFileName") {
+
     override fun employees(): List<Employee> {
         return listOf(Employee("first_name", "last_name", "1999/09/01", "e@mail.com"))
     }
+}
+
+class SpyMailer : Mailer("localhost", 25) {
+    var called = false
+
+    override fun sendMessage(sender: String, subject: String, body: String, recipient: String) {
+        called = true
+    }
+
+    fun isCalled() = called
 }

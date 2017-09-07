@@ -14,7 +14,7 @@ class AcceptanceTest {
     @Throws(Exception::class)
     fun setUp() {
         mailServer = SimpleSmtpServer.start(NONSTANDARD_PORT)
-        birthdayService = BirthdayService(EmployeeRepository("employee_data.txt"))
+        birthdayService = BirthdayService(EmployeeRepository("employee_data.txt"), Mailer("localhost", NONSTANDARD_PORT) )
     }
 
     @After
