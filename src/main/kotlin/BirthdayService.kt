@@ -7,8 +7,8 @@ import javax.mail.internet.MimeMessage
 
 open class BirthdayService(private val employeeRepository: EmployeeRepository) {
 
-    fun sendGreetings(fileName: String, xDate: XDate, smtpHost: String, smtpPort: Int) {
-        employees(fileName).forEach { employee ->
+    fun sendGreetings(xDate: XDate, smtpHost: String, smtpPort: Int) {
+        employeeRepository.employees().forEach { employee ->
             if(employee.isBirthday(xDate)) {
                 val recipient = employee.email
                 val body = "Happy Birthday, dear ${employee.firstName}!"
@@ -16,10 +16,6 @@ open class BirthdayService(private val employeeRepository: EmployeeRepository) {
                 sendMessage(smtpHost, smtpPort, "sender@here.com", subject, body, recipient)
             }
         }
-    }
-
-    protected open fun employees(fileName: String) : List<Employee> {
-        return employeeRepository.employees()
     }
 
     protected open fun sendMessage(smtpHost: String, smtpPort: Int, sender: String, subject: String, body: String, recipient: String) {
