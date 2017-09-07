@@ -1,17 +1,14 @@
-open class BirthdayService(private val employeeRepository: EmployeeRepository, val mailer: Mailer) {
+open class BirthdayService(private val employeeRepository: EmployeeRepository, private val mailer: Mailer) {
 
-    fun sendGreetings(xDate: XDate, smtpHost: String, smtpPort: Int) {
+    fun sendGreetings(xDate: XDate) {
         employeeRepository.employees().forEach { employee ->
             if(employee.isBirthday(xDate)) {
                 val recipient = employee.email
                 val body = "Happy Birthday, dear ${employee.firstName}!"
                 val subject = "Happy Birthday!"
-                sendMessage(smtpHost, smtpPort, "sender@here.com", subject, body, recipient)
+                mailer.sendMessage("sender@here.com", subject, body, recipient)
             }
         }
     }
 
-    protected open fun sendMessage(smtpHost: String, smtpPort: Int, sender: String, subject: String, body: String, recipient: String) {
-        mailer.sendMessage(sender, subject, body, recipient)
-    }
 }

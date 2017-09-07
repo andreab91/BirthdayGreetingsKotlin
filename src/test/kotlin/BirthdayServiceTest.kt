@@ -7,7 +7,7 @@ class BirthdayServiceTest {
         val spyMailer = SpyMailer()
         val birthdayService = BirthdayService(FakeEmployeeRepository(), spyMailer)
 
-        birthdayService.sendGreetings(XDate("1789/02/25"), "localhost", 1234)
+        birthdayService.sendGreetings(XDate("1789/02/25"))
 
         assertEquals(false, spyMailer.isCalled())
     }
@@ -17,7 +17,7 @@ class BirthdayServiceTest {
         val spyMailer = SpyMailer()
         val birthdayService = BirthdayService(FakeEmployeeRepository(), spyMailer)
 
-        birthdayService.sendGreetings(XDate("1999/09/01"), "localhost", 1234)
+        birthdayService.sendGreetings(XDate("1999/09/01"))
 
         assertEquals(true, spyMailer.isCalled())
     }
