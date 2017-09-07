@@ -18,4 +18,8 @@ open class EmployeeRepository(private val fileName: String) {
 
         return employeeList
     }
+
+    fun bornOn(xDate: XDate): List<Employee> {
+        return employees().filter { employee -> employee.isBirthday(xDate) }
+    }
 }
