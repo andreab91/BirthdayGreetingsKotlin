@@ -19,7 +19,7 @@ open class BirthdayService {
     }
 
     protected open fun employees(fileName: String) : List<Employee> {
-        return EmployeeRepository().employees(fileName)
+        return EmployeeRepository(fileName).employees()
     }
 
     protected open fun sendMessage(smtpHost: String, smtpPort: Int, sender: String, subject: String, body: String, recipient: String) {
